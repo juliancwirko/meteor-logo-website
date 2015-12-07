@@ -1,0 +1,220 @@
+@import 'normalize.import'
+
+@import 's-grid-settings'
+
+breakpoints = {
+    sm: 480px,
+    md: 640px,
+    lg: 1200px,
+    xlg: 1440px,
+    xxlg: 1920px
+}
+
+@import 's-grid-functions'
+
+/* settings */
+color-main-dark = #000
+color-main-light = #fff
+color-main-contrast = #2F3238
+font-headers = 'Lato', sans-serif
+
+/* -------------- */
+
+.cursor-pointer
+    cursor pointer
+
+body
+  background-color color-main-light
+  font-family font-headers
+
+.jumbo
+    grid(justify: 'center')
+    height 100vh
+    min-height rem-calc(680)
+    overflow-x hidden
+    +below(breakpoints[md])
+        min-height rem-calc(760)
+    +below(breakpoints[sm])
+        min-height rem-calc(800)
+    background-color color-main-contrast
+    color color-main-dark
+    .jumbo-wrapper
+        cell(1, 1, align: 'center', g: 30)
+        text-align center
+        .main-header
+            font-weight 100
+            margin-top rem-calc(10)
+            color color-main-light
+            margin-bottom rem-calc(25)
+            font-size rem-calc(76)
+            +below(breakpoints[md])
+                font-size rem-calc(62)
+            +below(breakpoints[sm])
+                font-size rem-calc(42)
+        .main-subheader
+            font-weight 300
+            font-size rem-calc(15)
+            margin-bottom rem-calc(5)
+            margin-top rem-calc(5)
+            color darken(color-main-light, 25%)
+        .disclaimer
+            font-size rem-calc(12)
+            margin-top rem-calc(30)
+            font-weight 300
+            color darken(color-main-light, 25%)
+            a, a:active, a:hover, a:focus
+                color inherit
+        .logo
+            padding rem-calc(25)
+        .buttons
+            font-size rem-calc(25)
+            font-weight 600
+            font-family font-headers
+
+
+.modal
+    width rem-calc(650)
+    max-width 90%
+    max-height 90%
+    background-color lighten(color-main-contrast, 5%)
+    color color-main-light
+    position fixed
+    top 50%
+    left 50%
+    transform translateX(-50%) translateY(-50%)
+    box-shadow rem-calc(2) rem-calc(2) rem-calc(2) rem-calc(2) rgba(color-main-dark, .15)
+    z-index 9999
+    animation-name fadeIn
+    animation-duration .3s
+    padding rem-calc(35)
+    font-weight 300
+    &.pngTmpl
+        width rem-calc(450)
+    .modal-header
+        margin-top 0
+        margin-bottom 0
+        font-weight 300
+        small
+            font-size rem-calc(13)
+    .modal-subheader
+        font-size rem-calc(13)
+        font-weight 300
+    .close-modal
+        position absolute
+        top rem-calc(10)
+        right rem-calc(15)
+        &:hover
+            &:after
+                color color-main-light
+        &:after
+            content '✖'
+            font-size rem-calc(24)
+            color darken(color-main-light, 50%)
+            transition color .3s
+
+.modal-overlay
+    width 100%
+    height 100%
+    background-color rgba(color-main-dark, .75)
+    position fixed
+    top 0
+    left 0
+    z-index 9998
+
+@keyframes fadeIn
+    0%
+        opacity 0
+    100%
+        opacity 1
+
+.modal-color-template
+    .choose-color-wrapper
+        grid()
+        .column
+            cell(1, 3)
+            text-align center
+            &.logo-black,
+            &.logo-white,
+            &.logo-custom
+                input,
+                .choose-color-label
+                    display inline-block
+                    vertical-align top
+                input
+                    width rem-calc(30)
+                    height rem-calc(20)
+                    margin-left rem-calc(5)
+                    border 0
+                input[type=text]
+                    width rem-calc(60)
+                    font-weight 400
+                    color color-main-dark
+                    font-size rem-calc(13)
+                    text-align center
+                    background-color lighten(color-main-contrast, 30%)
+            &.logo-white
+                svg
+                    path
+                        fill #ffffff !important
+            &.logo-black
+                svg
+                    path
+                        fill #000000 !important
+            svg
+                width 100%
+                max-width rem-calc(125)
+
+.png-sizes-form-wrapper
+    grid()
+    margin-top rem-calc(40)
+    margin-bottom rem-calc(15)
+    .separator
+        cell(1, 9)
+        text-align center
+        font-size rem-calc(30)
+    .column
+        cell(4, 9)
+        text-align center
+        .input-field
+            color color-main-light
+            font-size rem-calc(13)
+            font-weight 400
+            width 100%
+            padding rem-calc(10)
+            background-color color-main-contrast
+            border 0
+.png-sizes-button-wrapper
+    text-align center
+
+
+// based on http://tympanus.net/Development/CreativeButtons/
+.button
+    border-radius 0 0 rem-calc(5) rem-calc(5)
+    font-family inherit
+    font-size rem-calc(14)
+    cursor pointer
+    padding rem-calc(15) rem-calc(60)
+    display inline-block
+    margin rem-calc(15)
+    text-transform uppercase
+    letter-spacing rem-calc(1)
+    font-weight 300
+    outline none
+    position relative
+    transition all 0.3s
+    background darken(color-main-contrast, 10%)
+    color #fff
+    box-shadow 0 rem-calc(6) darken(color-main-contrast, 20%)
+    text-decoration none
+    user-select: none;
+    &:hover
+        box-shadow 0 rem-calc(4) darken(color-main-contrast, 20%)
+        top rem-calc(2)
+    &:after
+        content ''
+        position absolute
+        z-index -1
+        transition all 0.3s
+    &:active
+        box-shadow 0 0 darken(color-main-contrast, 20%)
+        top rem-calc(6)
