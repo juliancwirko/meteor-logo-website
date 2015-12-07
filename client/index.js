@@ -31,9 +31,6 @@ const blockLetters = function (e) {
 Template.main.onCreated(function () {
     this.modalActive = new ReactiveVar(false);
 });
-Template.main.onRendered(function () {
-    this.snapInstance = this.$('svg');
-});
 Template.main.events({
     'click .js-choose-color'(e, tmpl) {
         openModal(e, tmpl, 'colorTmpl');
@@ -50,7 +47,8 @@ Template.main.events({
     },
     'click .js-download-svg-logo'(e, tmpl) {
         e.preventDefault();
-        let doc = new XMLSerializer().serializeToString(tmpl.snapInstance[0]);
+        const svgElem = document.querySelector('#meteor-logo-svg svg');
+        const doc = new XMLSerializer().serializeToString(svgElem);
         saveAs(new Blob([doc], {type: 'image/svg+xml;charset=utf-8'}), 'meteor-logo.svg');
     }
 });
@@ -58,11 +56,6 @@ Template.main.helpers({
     isModalActive() {
         const tmpl = Template.instance();
         return tmpl.modalActive.get();
-    },
-    isPNG() {
-        const tmpl = Template.instance();
-        console.log(tmpl);
-        return tmpl.isPNGVar.get();
     }
 });
 
@@ -75,9 +68,6 @@ Template.main.helpers({
 Template.modal.helpers({
     modalTemplate() {
         return Session.get('modalTemplate') || '';
-    },
-    isPNG() {
-        return Session.get('isPNGVar');
     }
 });
 
