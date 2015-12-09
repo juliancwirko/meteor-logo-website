@@ -112,11 +112,6 @@ Template.modal.helpers({
 
 
 Template.colorTmpl.helpers({
-    isColorInput() {
-        let inp = document.createElement('input');
-        inp.setAttribute('type', 'color');
-        return inp.type !== 'text';
-    },
     isOnlyLogo() {
         const typeOfLogo = Session.get('activeSVGTemplate');
         if (typeof typeOfLogo === 'undefined' || typeOfLogo === 'logoSVG') {
@@ -124,15 +119,21 @@ Template.colorTmpl.helpers({
         }
     }
 });
+
+Template.colorPicker.events({
+    'change .js-choose-text-color'(e) {
+        const parentTemplate = getTemplateInstanceByDOM('.modal-color-template');
+        changeLogoColor(e, parentTemplate, 'g:eq(1) path');
+    },
+    'change .js-choose-logo-color'(e, tmpl) {
+        const parentTemplate = getTemplateInstanceByDOM('.modal-color-template');
+        changeLogoColor(e, parentTemplate, 'g:eq(0) path');
+    }
+});
+
 Template.colorTmpl.events({
     'change .js-choose-all-color'(e, tmpl) {
         changeLogoColor(e, tmpl, 'path');
-    },
-    'change .js-choose-text-color'(e, tmpl) {
-        changeLogoColor(e, tmpl, 'g:eq(1) path');
-    },
-    'change .js-choose-logo-color'(e, tmpl) {
-        changeLogoColor(e, tmpl, 'g:eq(0) path');
     },
     'click .js-logo-choose-all'(e) {
         const svgPath = $(e.currentTarget).find('svg path');

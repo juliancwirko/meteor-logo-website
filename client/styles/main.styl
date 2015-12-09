@@ -145,6 +145,8 @@ body
                 .choose-color-label
                     display inline-block
                     vertical-align top
+                    width rem-calc(40)
+                    text-align left
                 input
                     width rem-calc(30)
                     height rem-calc(20)
@@ -223,3 +225,17 @@ body
     &:active
         box-shadow 0 0 darken(color-main-contrast, 20%)
         top rem-calc(6)
+
+.choose-color-picker
+    margin-top rem-calc(8)
+.color-template-input
+    display inline-block
+    width rem-calc(20)
+    height rem-calc(20)
+    border-radius 50%
+    cursor pointer
+    margin 0 rem-calc(2)
+    input
+        visibility hidden
+
+

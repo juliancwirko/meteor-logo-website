@@ -124,25 +124,44 @@
                 <div class="column logo-custom">
                     <div class="logo cursor-pointer {{#if isOnlyLogo}}js-logo-choose-all{{else}}js-logo-text-choose{{/if}}">{{> svgLogo}}</div>
                     <div>
-                        <span class="choose-color-label">Choose:</span>
                         {{#if isOnlyLogo}}
-                            {{#if isColorInput}}
-                                <input type="color" class="choose-color-input js-choose-all-color" value="#de4f4f">
-                            {{else}}
-                                <input type="text" placeholder="Hex..." class="choose-color-input js-choose-all-color" value="#de4f4f">
-                            {{/if}}
+                            <span class="choose-color-label">Color</span>
                         {{else}}
-                            {{#if isColorInput}}
-                                <input type="color" class="choose-color-input js-choose-text-color" value="#ffffff">
-                                <input type="color" class="choose-color-input js-choose-logo-color" value="#de4f4f">
-                            {{else}}
-                                <br><input type="text" placeholder="Hex..." class="choose-color-input js-choose-text-color" value="#ffffff">
-                                <input type="text" placeholder="Hex..." class="choose-color-input js-choose-logo-color" value="#de4f4f">
-                            {{/if}}
+                            <span class="choose-color-label">Choose</span>
+                            <div class="choose-color-picker">
+                                <span class="choose-color-label">Text:</span>
+                                {{> colorPicker
+                                    name="text"
+                                    hex1="ffffff"
+                                    hex2="000000"
+                                    hex3="de4f4f"
+                                    class="js-choose-text-color"}}
+                            </div>
+                            <div class="choose-color-picker">
+                                <span class="choose-color-label">Logo:</span>
+                                {{> colorPicker
+                                    name="logo"
+                                    hex1="ffffff"
+                                    hex2="000000"
+                                    hex3="de4f4f"
+                                    class="js-choose-logo-color"}}
+                            </div>
                         {{/if}}
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</template>
+
+<template name="colorPicker">
+    <label for="color-{{name}}-{{hex1}}" class="color-template-input" style="background-color: #{{hex1}};">
+        <input id="color-{{name}}-{{hex1}}" type="radio" name="{{name}}" class="{{class}}" value="#{{hex1}}">
+    </label>
+    <label for="color-{{name}}-{{hex2}}" class="color-template-input" style="background-color: #{{hex2}};">
+        <input id="color-{{name}}-{{hex2}}" type="radio" name="{{name}}" class="{{class}}" value="#{{hex2}}">
+    </label>
+    <label for="color-{{name}}-{{hex3}}" class="color-template-input" style="background-color: #{{hex3}};">
+        <input id="color-{{name}}-{{hex3}}" type="radio" name="{{name}}" class="{{class}}" value="#{{hex3}}">
+    </label>
 </template>
