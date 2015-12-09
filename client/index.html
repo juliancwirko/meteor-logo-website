@@ -123,12 +123,11 @@
                 </div>
                 <div class="column logo-custom">
                     <div class="logo cursor-pointer {{#if isOnlyLogo}}js-logo-choose-all{{else}}js-logo-text-choose{{/if}}">{{> svgLogo}}</div>
-                    <div>
+                    <div class="{{#unless isOnlyLogo}}color-picker-container{{/unless}}">
                         {{#if isOnlyLogo}}
                             <span class="choose-color-label">Color</span>
                         {{else}}
-                            <span class="choose-color-label">Choose</span>
-                            <div class="choose-color-picker">
+                            <div class="choose-color-picker text-left">
                                 <span class="choose-color-label">Text:</span>
                                 {{> colorPicker
                                     name="text"
@@ -137,7 +136,7 @@
                                     hex3="de4f4f"
                                     class="js-choose-text-color"}}
                             </div>
-                            <div class="choose-color-picker">
+                            <div class="choose-color-picker text-left">
                                 <span class="choose-color-label">Logo:</span>
                                 {{> colorPicker
                                     name="logo"
@@ -161,7 +160,9 @@
     <label for="color-{{name}}-{{hex2}}" class="color-template-input" style="background-color: #{{hex2}};">
         <input id="color-{{name}}-{{hex2}}" type="radio" name="{{name}}" class="{{class}}" value="#{{hex2}}">
     </label>
-    <label for="color-{{name}}-{{hex3}}" class="color-template-input" style="background-color: #{{hex3}};">
-        <input id="color-{{name}}-{{hex3}}" type="radio" name="{{name}}" class="{{class}}" value="#{{hex3}}">
-    </label>
+    {{#unless is name 'text'}}
+        <label for="color-{{name}}-{{hex3}}" class="color-template-input" style="background-color: #{{hex3}};">
+            <input id="color-{{name}}-{{hex3}}" type="radio" name="{{name}}" class="{{class}}" value="#{{hex3}}">
+        </label>
+    {{/unless}}
 </template>

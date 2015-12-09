@@ -110,6 +110,9 @@ Template.modal.helpers({
 // Template: colorTmpl
 // =========================
 
+Template.registerHelper('is', function (a, b) {
+    return a === b;
+});
 
 Template.colorTmpl.helpers({
     isOnlyLogo() {

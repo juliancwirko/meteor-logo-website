@@ -22,6 +22,8 @@ font-headers = 'Lato', sans-serif
 
 .cursor-pointer
     cursor pointer
+.text-left
+    text-align left
 
 body
   background-color color-main-light
@@ -135,11 +137,14 @@ body
 .modal-color-template
     .choose-color-wrapper
         grid()
+        .color-picker-container
+            max-width rem-calc(125)
+            width 100%
+            margin-left auto
+            margin-right auto
         .column
             cell(1, 3)
             text-align center
-            +below(rem-calc(560))
-                text-align left
             &.logo-black,
             &.logo-white,
             &.logo-custom
@@ -153,6 +158,8 @@ body
                         width 100%
                 .choose-color-picker
                     margin-top rem-calc(8)
+                    &:first-of-type
+                        margin-top 0
                 .color-template-input
                     display inline-block
                     width rem-calc(20)
