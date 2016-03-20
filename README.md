@@ -1,7 +1,7 @@
 ## Meteor logo
 
 Source code of the website.
-Download customized Meteor logo: [meteorlogo.julian.io](http://meteorlogo.julian.io)
+Download customized Meteor logo: [logo.meteorapp.com](http://logo.meteorapp.com)
 
 - - -
 
