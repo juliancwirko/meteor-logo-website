@@ -148,7 +148,7 @@ Template.colorTmpl.events({
     },
     'click .js-logo-text-choose'(e) {
         
-        const $g = $(e.currentTarget).find('svg g');
+        let $g = $(e.currentTarget).find('svg g');
         const $svgPathLogo = $g.eq(0).find('path');
         const $svgPathText = $g.eq(1).find('path');
         
@@ -156,9 +156,10 @@ Template.colorTmpl.events({
         const fillLogo = svgPathLogo.length && svgPathLogo.css('fill');
 
         if (fillText && fillLogo) {
-            const $g = $('#meteor-logo-svg svg g');
+            $g = $('#meteor-logo-svg svg g');
             $g.eq(0).find('path').css('fill', fillLogo);
             $g.eq(1).find('path').css('fill', fillText);
+            
             closeModal();
         }
     },
