@@ -17,13 +17,13 @@ const getTemplateInstanceByDOM = function (domElemQuetySelector) {
 const openModal = function (e, tmpl, modalTemplate) {
     e.preventDefault();
     tmpl.modalTemplate.set(modalTemplate);
-    document.body.parentElement.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
     tmpl.modalActive.set(true);
 };
 
 const closeModal = function () {
     const tmpl = getTemplateInstanceByDOM('.jumbo');
-    document.body.parentElement.style.overflow = 'auto';
+    document.documentElement.style.overflow = 'auto';
     tmpl.modalActive.set(false);
 };
 
@@ -63,7 +63,7 @@ Template.main.events({
     },
     'click .js-close-modal'(e, tmpl) {
         tmpl.modalActive.set(false);
-        document.body.parentElement.style.overflow = 'auto';
+        document.documentElement.style.overflow = 'auto';
     },
     'click .js-download-svg-logo'(e, tmpl) {
         e.preventDefault();
@@ -84,8 +84,7 @@ Template.main.events({
 });
 Template.main.helpers({
     isModalActive() {
-        const tmpl = Template.instance();
-        return tmpl.modalActive.get();
+        return Template.instance().modalActive.get();
     },
     logoTypeClass() {
         return Session.get('activeSVGTemplate') || 'logoSVG';
@@ -147,7 +146,6 @@ Template.colorTmpl.events({
         }
     },
     'click .js-logo-text-choose'(e) {
-        
         let $g = $(e.currentTarget).find('svg g');
         const $svgPathLogo = $g.eq(0).find('path');
         const $svgPathText = $g.eq(1).find('path');
@@ -175,8 +173,8 @@ Template.pngTmpl.events({
     'click .js-download-png-logo'(e, tmpl) {
         e.preventDefault();
         let width, height; // var unused
-        const pngWidthInput = document.getElementById('png-file-width').value;
-        const pngHeightInput = document.getElementById('png-file-height').value;
+        const pngWidthInput = tmpl.find('#png-file-width').value;
+        const pngHeightInput = tmpl.find('#png-file-height').value;
         const domElem = document.querySelector('#meteor-logo-svg svg');
         const clonedElem = domElem.cloneNode(true);
         
@@ -199,20 +197,20 @@ Template.pngTmpl.events({
             }
         });
     },
-    'keyup [name=png-file-width]'(e) {
+    'keyup [name=png-file-width]'(e, instance) {
         blockLetters(e);
-        const input = document.getElementById('png-file-height');
-        input.placeholder = 'auto';
+        const inputHeight = instance.find('#png-file-height');
+        inputHeight.placeholder = 'auto';
         if (e.currentTarget.value === '') {
-            input.placeholder = 'Height';
+            inputHeight.placeholder = 'Height';
         }
     },
-    'keyup [name=png-file-height]'(e) {
+    'keyup [name=png-file-height]'(e, instance) {
         blockLetters(e);
-        const input = document.getElementById('png-file-width');
-        input.placeholder = 'auto';
+        const inputWidth = instance.find('#png-file-width');
+        inputWidth.placeholder = 'auto';
         if (e.currentTarget.value === '') {
-            input.placeholder = 'Width';
+            inputWidth.placeholder = 'Width';
         }
     },
 });
