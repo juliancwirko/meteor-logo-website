@@ -4,7 +4,7 @@
 
 const dataURItoBlobData = function (dataURI) {
     const binary = atob(dataURI.split(',')[1]), array = [];
-    for(var i = 0; i < binary.length; i++) array.push(binary.charCodeAt(i));
+    for(let i = 0, c = binary.length; i < c; i++) array.push(binary.charCodeAt(i));
     return new Uint8Array(array);
 };
 
@@ -17,29 +17,29 @@ const getTemplateInstanceByDOM = function (domElemQuetySelector) {
 const openModal = function (e, tmpl, modalTemplate) {
     e.preventDefault();
     tmpl.modalTemplate.set(modalTemplate);
-    $('html').css('overflow', 'hidden');
+    document.body.parentElement.style.overflow = 'hidden';
     tmpl.modalActive.set(true);
 };
 
 const closeModal = function () {
     const tmpl = getTemplateInstanceByDOM('.jumbo');
-    $('html').css('overflow', 'auto');
+    document.body.parentElement.style.overflow = 'auto';
     tmpl.modalActive.set(false);
 };
 
 const blockLetters = function (e) {
     const checkKey = (e.keyCode === 46 || e.keyCode === 8 || (e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 96 && e.keyCode <= 105));
     if (!checkKey) {
-        $(e.currentTarget).val('');
-    };
+        e.currentTarget.value = '';
+    }
 };
 
 const changeLogoColor = function (e, tmpl, query) {
-    const value = $(e.currentTarget).val();
+    const value = e.currentTarget.value;
     if (value && /^#(?:[0-9a-f]{3}){1,2}$/i.test(value)) {
         tmpl.$('.logo-custom svg').find(query).css('fill', value);
     }
-}
+};
 
 
 // =========================
@@ -63,7 +63,7 @@ Template.main.events({
     },
     'click .js-close-modal'(e, tmpl) {
         tmpl.modalActive.set(false);
-        $('html').css('overflow', 'auto');
+        document.body.parentElement.style.overflow = 'auto';
     },
     'click .js-download-svg-logo'(e, tmpl) {
         e.preventDefault();
@@ -80,7 +80,7 @@ Template.main.events({
         if (logoTmpl === 'logoTextSVG') {
             Session.set('activeSVGTemplate', 'logoSVG');
         }
-    }
+    },
 });
 Template.main.helpers({
     isModalActive() {
@@ -89,7 +89,7 @@ Template.main.helpers({
     },
     logoTypeClass() {
         return Session.get('activeSVGTemplate') || 'logoSVG';
-    }
+    },
 });
 
 
@@ -102,7 +102,7 @@ Template.modal.helpers({
     modalTemplate() {
         const mainTmpl = getTemplateInstanceByDOM('.jumbo');
         return mainTmpl.modalTemplate.get() || '';
-    }
+    },
 });
 
 
@@ -120,7 +120,7 @@ Template.colorTmpl.helpers({
         if (typeof typeOfLogo === 'undefined' || typeOfLogo === 'logoSVG') {
             return true;
         }
-    }
+    },
 });
 
 Template.colorPicker.events({
@@ -131,7 +131,7 @@ Template.colorPicker.events({
     'change .js-choose-logo-color'(e, tmpl) {
         const parentTemplate = getTemplateInstanceByDOM('.modal-color-template');
         changeLogoColor(e, parentTemplate, 'g:eq(0) path');
-    }
+    },
 });
 
 Template.colorTmpl.events({
@@ -140,25 +140,28 @@ Template.colorTmpl.events({
     },
     'click .js-logo-choose-all'(e) {
         const svgPath = $(e.currentTarget).find('svg path');
-        const fill = svgPath && svgPath.css('fill');
-        let tmpl;
+        const fill = svgPath.length && svgPath.css('fill');
         if (fill) {
             $('#meteor-logo-svg svg').find('path').css('fill', fill);
             closeModal();
         }
     },
     'click .js-logo-text-choose'(e) {
-        const svgPathText = $(e.currentTarget).find('svg g:eq(1) path');
-        const svgPathLogo = $(e.currentTarget).find('svg g:eq(0) path');
-        const fillText = svgPathText && svgPathText.css('fill');
-        const fillLogo = svgPathLogo && svgPathLogo.css('fill');
-        let tmpl;
+        
+        const $g = $(e.currentTarget).find('svg g');
+        const $svgPathLogo = $g.eq(0).find('path');
+        const $svgPathText = $g.eq(1).find('path');
+        
+        const fillText = svgPathText.length && svgPathText.css('fill');
+        const fillLogo = svgPathLogo.length && svgPathLogo.css('fill');
+
         if (fillText && fillLogo) {
-            $('#meteor-logo-svg svg').find('g:eq(0) path').css('fill', fillLogo);
-            $('#meteor-logo-svg svg').find('g:eq(1) path').css('fill', fillText);
+            const $g = $('#meteor-logo-svg svg g');
+            $g.eq(0).find('path').css('fill', fillLogo);
+            $g.eq(1).find('path').css('fill', fillText);
             closeModal();
         }
-    }
+    },
 });
 
 
@@ -170,11 +173,12 @@ Template.colorTmpl.events({
 Template.pngTmpl.events({
     'click .js-download-png-logo'(e, tmpl) {
         e.preventDefault();
-        let domElem, clonedElem, width, height, pngHeightInput, pngWidthInput, mainTmpl;
-        pngWidthInput = $('[name=png-file-width]').val();
-        pngHeightInput = $('[name=png-file-height]').val();
-        domElem = document.querySelector('#meteor-logo-svg svg');
-        clonedElem = domElem.cloneNode(true);
+        let width, height; // var unused
+        const pngWidthInput = document.getElementById('png-file-width').value;
+        const pngHeightInput = document.getElementById('png-file-height').value;
+        const domElem = document.querySelector('#meteor-logo-svg svg');
+        const clonedElem = domElem.cloneNode(true);
+        
         if (_.isNumber(parseInt(pngHeightInput))) {
             width = clonedElem.setAttribute('width', pngWidthInput);
             height = clonedElem.setAttribute('height', '100%');
@@ -196,18 +200,20 @@ Template.pngTmpl.events({
     },
     'keyup [name=png-file-width]'(e) {
         blockLetters(e);
-        $('[name=png-file-height]').attr('placeholder', 'auto');
-        if ($(e.currentTarget).val() === '') {
-            $('[name=png-file-height]').attr('placeholder', 'Height');
+        const input = document.getElementById('png-file-height');
+        input.placeholder = 'auto';
+        if (e.currentTarget.value === '') {
+            input.placeholder = 'Height';
         }
     },
     'keyup [name=png-file-height]'(e) {
         blockLetters(e);
-        $('[name=png-file-width]').attr('placeholder', 'auto');
-        if ($(e.currentTarget).val() === '') {
-            $('[name=png-file-width]').attr('placeholder', 'Width');
+        const input = document.getElementById('png-file-width');
+        input.placeholder = 'auto';
+        if (e.currentTarget.value === '') {
+            input.placeholder = 'Width';
         }
-    }
+    },
 });
 
 
@@ -219,5 +225,5 @@ Template.pngTmpl.events({
 Template.svgLogo.helpers({
     svgTmpl() {
         return Session.get('activeSVGTemplate') || 'logoSVG';
-    }
+    },
 });
