@@ -149,15 +149,15 @@ Template.colorTmpl.events({
         let $g = $(e.currentTarget).find('svg g');
         const $svgPathLogo = $g.eq(0).find('path');
         const $svgPathText = $g.eq(1).find('path');
-        
-        const fillText = svgPathText.length && svgPathText.css('fill');
-        const fillLogo = svgPathLogo.length && svgPathLogo.css('fill');
+
+        const fillText = $svgPathText.length && $svgPathText.css('fill');
+        const fillLogo = $svgPathLogo.length && $svgPathLogo.css('fill');
 
         if (fillText && fillLogo) {
             $g = $('#meteor-logo-svg svg g');
             $g.eq(0).find('path').css('fill', fillLogo);
             $g.eq(1).find('path').css('fill', fillText);
-            
+
             closeModal();
         }
     },
@@ -177,7 +177,7 @@ Template.pngTmpl.events({
         const pngHeightInput = tmpl.find('#png-file-height').value;
         const domElem = document.querySelector('#meteor-logo-svg svg');
         const clonedElem = domElem.cloneNode(true);
-        
+
         if (_.isNumber(parseInt(pngHeightInput))) {
             width = clonedElem.setAttribute('width', pngWidthInput);
             height = clonedElem.setAttribute('height', '100%');
