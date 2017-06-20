@@ -172,23 +172,28 @@ Template.colorTmpl.events({
 Template.pngTmpl.events({
     'click .js-download-png-logo'(e, tmpl) {
         e.preventDefault();
-        let width, height; // var unused
         const pngWidthInput = tmpl.find('#png-file-width').value;
         const pngHeightInput = tmpl.find('#png-file-height').value;
         const domElem = document.querySelector('#meteor-logo-svg svg');
         const clonedElem = domElem.cloneNode(true);
+        const clonedElemOriginalWidth = clonedElem.getAttribute('width');
+        const clonedElemOriginalHeight = clonedElem.getAttribute('height');
 
-        if (_.isNumber(parseInt(pngHeightInput))) {
-            width = clonedElem.setAttribute('width', pngWidthInput);
-            height = clonedElem.setAttribute('height', '100%');
+        if (!_.isNaN(parseInt(pngWidthInput))) {
+            clonedElem.setAttribute('width', pngWidthInput);
+            clonedElem.setAttribute(
+                'height', parseInt((pngWidthInput / clonedElemOriginalWidth) * clonedElemOriginalHeight)
+            );
         }
-        if (_.isNumber(parseInt(pngHeightInput))) {
-            width = clonedElem.setAttribute('width', '100%');
-            height = clonedElem.setAttribute('height', pngHeightInput);
+        if (!_.isNaN(parseInt(pngHeightInput))) {
+            clonedElem.setAttribute(
+                'width', parseInt((pngHeightInput / clonedElemOriginalHeight) * clonedElemOriginalWidth)
+            );
+            clonedElem.setAttribute('height', pngHeightInput);
         }
-        if (_.isNumber(parseInt(pngHeightInput)) && _.isNumber(parseInt(pngHeightInput))) {
-            width = clonedElem.setAttribute('width', pngWidthInput);
-            height = clonedElem.setAttribute('height', pngHeightInput);
+        if (!_.isNaN(parseInt(pngWidthInput)) && !_.isNaN(parseInt(pngHeightInput))) {
+            clonedElem.setAttribute('width', pngWidthInput);
+            clonedElem.setAttribute('height', pngHeightInput);
         }
         clonedElem.toDataURL('image/png', {
             callback: function (data) {

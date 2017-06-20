@@ -1,0 +1,24 @@
+{
+  "name": "meteor-logo-website",
+  "version": "1.0.0",
+  "description": "Source code of the website. Download customized Meteor logo: [logo.meteorapp.com](http://logo.meteorapp.com)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/juliancwirko/meteor-logo-website.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/juliancwirko/meteor-logo-website/issues"
+  },
+  "homepage": "https://github.com/juliancwirko/meteor-logo-website#readme",
+  "dependencies": {
+    "babel-runtime": "^6.23.0",
+    "bcrypt": "^0.8.7",
+    "meteor-node-stubs": "~0.2.0"
+  }
+}
